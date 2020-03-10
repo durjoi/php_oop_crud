@@ -3,6 +3,10 @@
 function __autoload($class) {
   require_once "includes/$class.inc.php";
 }
+if (isset($_GET['id'])) {
+  $employee = new Employee;
+  $employee->delete($_GET['id']);
+}
  ?>
 
  <!DOCTYPE html>
@@ -51,7 +55,7 @@ function __autoload($class) {
                  <h3>Employee Table</h1>
                </div>
                <div class="header-item">
-                 <a href="#" class="btn btn-primary">Add New</a>
+                 <a href="createEmployee.php" class="btn btn-primary">Add New</a>
                </div>
              </div>
 
@@ -69,20 +73,30 @@ function __autoload($class) {
                   <?php
                      $data = new Employee;
                      $employees = $data->getEmployees();
-
+                    if($employees):
                      foreach ($employees as $row):
-                   ?>
+                       ?>
                     <tr>
                       <th scope="row"><?php echo $row['id']; ?></th>
                       <td><?php echo $row['name']; ?></td>
                       <td><?php echo $row['city']; ?></td>
                       <td><?php echo $row['designation']; ?></td>
-                      <td>
-                        <button type="button" name="button" class="btn btn-warning">Edit</button>
-                        <button type="button" name="button" class="btn btn-danger">Delete</button>
+                      <td style="">
+                        <!-- <a  type="submit" name="delete" class="btn btn-danger">Delete</button> -->
+                          <a class="btn btn-warning" href="editEmployee.php?edit=<?php echo $row['id']; ?>">Edit</a>
+                          <a class="btn btn-danger" href="<?php echo$_SERVER['PHP_SELF'];?>?id=<?php echo $row['id']; ?>">Delete</a>
+
+                        <!-- <form style="float:right;" class="" type="hidden" action="<?php //echo $_SERVER['PHP_SELF']; ?>" method="post">
+                          <input type="hidden" name="id" value="<?php //echo $row['id']; ?>">
+                          <button  type="submit" name="delete" class="btn btn-danger">Delete</button>
+                        </form> -->
+
                       </td>
                     </tr>
-                <?php endforeach; ?>
+                  <?php
+                    endforeach;
+                  endif;
+                  ?>
                 </tbody>
               </table>
            </div>
