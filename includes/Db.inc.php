@@ -1,4 +1,5 @@
 <?php
+// Handling database connection
 class Db {
   private $servername;
   private $dbusername;
@@ -11,8 +12,10 @@ class Db {
     $this->dbpassword = "";
     $this->dbname     = "oop_crud";
 
+    // Create connection
     $conn = new mysqli($this->servername, $this->dbusername, $this->dbpassword, $this->dbname);
 
+    // Check connection
     if($conn->connect_error) {
       die("Connection Failed: ". $conn->connect_erro);
     }
