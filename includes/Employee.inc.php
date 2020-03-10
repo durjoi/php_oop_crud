@@ -14,4 +14,14 @@ class Employee extends Db {
       return $data;
     }
   }
+
+  public function insert($fields) {
+    $sql = "INSERT INTO employees (name, city, designation) VALUES ('".$fields['name']."', '".$fields['city']."', '".$fields['designation']."')";
+     if ($this->connect()->query($sql) == TRUE) {
+       echo "New record created successfully";
+     }
+     else {
+        echo "Error: " . $sql . "<br>" . $this->connect()->error;
+     }
+  }
 }

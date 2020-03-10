@@ -3,6 +3,16 @@
 function __autoload($class) {
   require_once "includes/$class.inc.php";
 }
+
+if(isset($_POST['submit'])) {
+   $fields = [
+     'name' => $_POST['name'],
+     'city' => $_POST['city'],
+     'designation' => $_POST['designation'],
+   ];
+   $employee = new Employee();
+   $employee->insert($fields);
+}
  ?>
 
  <!DOCTYPE html>
@@ -18,10 +28,6 @@ function __autoload($class) {
        .header-item {
          flex: 1;
          margin: 10px 0px;
-
-       }
-       .header-item a {
-         float: right;
        }
 
      </style>
@@ -32,8 +38,8 @@ function __autoload($class) {
          <div class="container">
            <a class="navbar-brand" href="#">Employee Management System</a>
              <ul class="nav navbar-nav navbar-right">
-               <li class="nav-item active">
-                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+               <li class="nav-item">
+                 <a class="nav-link" href="#">Home</a>
                </li>
                <li class="nav-item">
                  <a class="nav-link" href="#">Link</a>
@@ -43,48 +49,33 @@ function __autoload($class) {
         </nav>
      </header>
      <main>
+
        <div class="container mt-4">
+
          <div class="row">
            <div class="col-md-12">
-             <div class="header">
-               <div class="header-item">
-                 <h3>Employee Table</h1>
-               </div>
-               <div class="header-item">
-                 <a href="#" class="btn btn-primary">Add New</a>
-               </div>
-             </div>
-
-             <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Designation</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                     $data = new Employee;
-                     $employees = $data->getEmployees();
-
-                     foreach ($employees as $row):
-                   ?>
-                    <tr>
-                      <th scope="row"><?php echo $row['id']; ?></th>
-                      <td><?php echo $row['name']; ?></td>
-                      <td><?php echo $row['city']; ?></td>
-                      <td><?php echo $row['designation']; ?></td>
-                      <td>
-                        <button type="button" name="button" class="btn btn-warning">Edit</button>
-                        <button type="button" name="button" class="btn btn-danger">Delete</button>
-                      </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-              </table>
+             <div class="card" style="width: 30rem;margin:auto;">
+                <div class="card-header">
+                  Employee Add Form
+                </div>
+                <div class="card-body">
+                  <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                   <div class="form-group">
+                     <label for="name">Name</label>
+                     <input type="text" class="form-control" id="name" name="name" placeholder="Full Name">
+                   </div>
+                   <div class="form-group">
+                     <label for="city">City</label>
+                     <input type="text" class="form-control" id="city" name="city" placeholder="City Name">
+                   </div>
+                   <div class="form-group">
+                     <label for="designation">Designation</label>
+                     <input type="text" class="form-control" id="designation" name="designation" placeholder="Designation">
+                   </div>
+                   <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                 </form>
+                </div>
+              </div>
            </div>
          </div>
        </div>
